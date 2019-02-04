@@ -4950,8 +4950,12 @@ odm_ant_div_timers(
 	struct PHY_DM_STRUCT		*p_dm_odm = (struct PHY_DM_STRUCT *)p_dm_void;
 	if (state == INIT_ANTDIV_TIMMER) {
 #ifdef CONFIG_S0S1_SW_ANTENNA_DIVERSITY
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0)
+		setup_timer(&pDM_Odm->DM_SWAT_Table.phydm_SwAntennaSwitchTimer, ODM_SW_AntDiv_Callback, 0)
+#else
 		odm_initialize_timer(p_dm_odm, &(p_dm_odm->dm_swat_table.phydm_sw_antenna_switch_timer),
 			(void *)odm_sw_antdiv_callback, NULL, "phydm_sw_antenna_switch_timer");
+#endif
 #elif (defined(CONFIG_5G_CG_SMART_ANT_DIVERSITY)) || (defined(CONFIG_2G_CG_SMART_ANT_DIVERSITY))
 		odm_initialize_timer(p_dm_odm, &p_dm_odm->fast_ant_training_timer,
 			(void *)odm_fast_ant_training_callback, NULL, "fast_ant_training_timer");

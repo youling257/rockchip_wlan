@@ -671,7 +671,11 @@ MPT_InitializeAdapter(
 	pMptCtx->MptH2cRspEvent = _FALSE;
 	pMptCtx->MptBtC2hEvent = _FALSE;
 	_rtw_init_sema(&pMptCtx->MPh2c_Sema, 0);
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
 	_init_timer(&pMptCtx->MPh2c_timeout_timer, pAdapter->pnetdev, MPh2c_timeout_handle, pAdapter);
+#else
+	timer_setup(&pMptCtx->MPh2c_timeout_timer, MPh2c_timeout_handle, 0);
+#endif
 #endif
 
 	mpt_InitHWConfig(pAdapter);
@@ -962,7 +966,7 @@ u32 mp_join(PADAPTER padapter, u8 mode)
 		goto end_of_mp_start_test;
 	}
 	if (mode == WIFI_FW_ADHOC_STATE)
-	set_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE);
+		set_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE);
 	else
 		set_fwstate(pmlmepriv, WIFI_STATION_STATE);
 	/* 3 3. join psudo AdHoc */

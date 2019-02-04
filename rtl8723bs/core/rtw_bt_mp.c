@@ -27,16 +27,20 @@
 #endif
 
 #if defined(CONFIG_RTL8723B) || defined(CONFIG_RTL8821A)
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0)
+void MPh2c_timeout_handle(struct timer_list *t)
+#else
 void MPh2c_timeout_handle(void *FunctionContext)
+#endif
 {
-	PADAPTER pAdapter;
-	PMPT_CONTEXT pMptCtx;
-
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 15, 0)
+	PMPT_CONTEXT pMptCtx = from_timer(pMptCtx, t, MPh2c_timeout_timer);
+#else
+	PADAPTER pAdapter = (PADAPTER)FunctionContext;
+	PMPT_CONTEXT pMptCtx = &pAdapter->mppriv.mpt_ctx;
+#endif
 
 	RTW_INFO("[MPT], MPh2c_timeout_handle\n");
-
-	pAdapter = (PADAPTER)FunctionContext;
-	pMptCtx = &pAdapter->mppriv.mpt_ctx;
 
 	pMptCtx->bMPh2c_timeout = _TRUE;
 

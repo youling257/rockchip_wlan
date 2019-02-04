@@ -998,10 +998,10 @@ void rtw_list_insert_tail(_list *plist, _list *phead)
 
 }
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
 void rtw_init_timer(_timer *ptimer, void *padapter, void *pfunc)
 {
 	_adapter *adapter = (_adapter *)padapter;
-
 #ifdef PLATFORM_LINUX
 	_init_timer(ptimer, adapter->pnetdev, pfunc, adapter);
 #endif
@@ -1012,6 +1012,7 @@ void rtw_init_timer(_timer *ptimer, void *padapter, void *pfunc)
 	_init_timer(ptimer, adapter->hndis_adapter, pfunc, adapter->mlmepriv.nic_hdl);
 #endif
 }
+#endif
 
 /*
 
@@ -1955,7 +1956,9 @@ static int readFile(struct file *fp, char *buf, int len)
 		return -EPERM;
 
 	while (sum < len) {
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 1, 0))
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 14, 0))
+		rlen = kernel_read(fp, buf + sum, len - sum, &fp->f_pos);
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 1, 0))
 		rlen = __vfs_read(fp, buf + sum, len - sum, &fp->f_pos);
 #else
 		rlen = fp->f_op->read(fp, buf + sum, len - sum, &fp->f_pos);

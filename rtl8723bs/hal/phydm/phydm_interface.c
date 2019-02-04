@@ -562,6 +562,7 @@ odm_set_timer(
 
 }
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 15, 0)
 void
 odm_initialize_timer(
 	struct PHY_DM_STRUCT			*p_dm_odm,
@@ -571,20 +572,10 @@ odm_initialize_timer(
 	const char			*sz_id
 )
 {
-#if (DM_ODM_SUPPORT_TYPE & ODM_AP)
-	init_timer(p_timer);
-	p_timer->function = call_back_func;
-	p_timer->data = (unsigned long)p_dm_odm;
-	/*mod_timer(p_timer, jiffies+RTL_MILISECONDS_TO_JIFFIES(10));	*/
-#elif (DM_ODM_SUPPORT_TYPE & ODM_CE)
 	struct _ADAPTER *adapter = p_dm_odm->adapter;
 	_init_timer(p_timer, adapter->pnetdev, call_back_func, p_dm_odm);
-#elif (DM_ODM_SUPPORT_TYPE & ODM_WIN)
-	struct _ADAPTER *adapter = p_dm_odm->adapter;
-	platform_initialize_timer(adapter, p_timer, call_back_func, p_context, sz_id);
-#endif
 }
-
+#endif
 
 void
 odm_cancel_timer(
