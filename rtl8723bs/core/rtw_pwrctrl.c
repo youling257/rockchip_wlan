@@ -398,11 +398,9 @@ exit:
 	return;
 }
 
-void pwr_state_check_handler(struct timer_list *t)
+void pwr_state_check_handler(void *ctx)
 {
-	struct pwrctrl_priv *pwrpriv = from_timer(pwrpriv, t, pwr_state_check_timer);
-	struct dvobj_priv *dvobj = pwrctl_to_dvobj(pwrpriv);
-	_adapter *padapter = dvobj_get_primary_adapter(dvobj);
+	_adapter *padapter = (_adapter *)ctx;
 	rtw_ps_cmd(padapter);
 }
 
@@ -2027,7 +2025,6 @@ void rtw_init_pwrctrl_priv(PADAPTER padapter)
 
 	_init_pwrlock(&pwrctrlpriv->lock);
 	_init_pwrlock(&pwrctrlpriv->check_32k_lock);
-	pwrctrlpriv->adapter = padapter;
 	pwrctrlpriv->rf_pwrstate = rf_on;
 	pwrctrlpriv->ips_enter_cnts = 0;
 	pwrctrlpriv->ips_leave_cnts = 0;
@@ -2087,11 +2084,11 @@ void rtw_init_pwrctrl_priv(PADAPTER padapter)
 #ifdef CONFIG_LPS_RPWM_TIMER
 	pwrctrlpriv->brpwmtimeout = _FALSE;
 	_init_workitem(&pwrctrlpriv->rpwmtimeoutwi, rpwmtimeout_workitem_callback, NULL);
-	rtw_init_timer(&pwrctrlpriv->pwr_rpwm_timer, padapter, pwr_rpwm_timeout_handler);
+	rtw_init_timer(&pwrctrlpriv->pwr_rpwm_timer, padapter, pwr_rpwm_timeout_handler, padapter);
 #endif /* CONFIG_LPS_RPWM_TIMER */
 #endif /* CONFIG_LPS_LCLK */
 
-	rtw_init_timer(&pwrctrlpriv->pwr_state_check_timer, padapter, pwr_state_check_handler);
+	rtw_init_timer(&pwrctrlpriv->pwr_state_check_timer, padapter, pwr_state_check_handler, padapter);
 
 	pwrctrlpriv->wowlan_mode = _FALSE;
 	pwrctrlpriv->wowlan_ap_mode = _FALSE;

@@ -819,9 +819,9 @@ void BlinkHandler(PLED_SDIO	pLed)
  *		Callback function of LED BlinkTimer,
  *		it just schedules to corresponding BlinkWorkItem/led_blink_hdl
  *   */
-void BlinkTimerCallback(struct timer_list *t)
+void BlinkTimerCallback(void *data)
 {
-	PLED_SDIO	 pLed = from_timer(pLed, t, BlinkTimer);
+	PLED_SDIO	 pLed = (PLED_SDIO)data;
 	_adapter		*padapter = pLed->padapter;
 
 	/* RTW_INFO("%s\n", __FUNCTION__); */
@@ -1990,7 +1990,7 @@ InitLed(
 
 	ResetLedStatus(pLed);
 
-	rtw_init_timer(&(pLed->BlinkTimer), padapter, BlinkTimerCallback);
+	rtw_init_timer(&(pLed->BlinkTimer), padapter, BlinkTimerCallback, pLed);
 
 	_init_workitem(&(pLed->BlinkWorkItem), BlinkWorkItemCallback, pLed);
 }

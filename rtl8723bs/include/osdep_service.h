@@ -356,7 +356,7 @@ extern void	rtw_udelay_os(int us);
 extern void rtw_yield_os(void);
 
 
-extern void rtw_init_timer(_timer *ptimer, void *padapter, void *pfunc);
+extern void rtw_init_timer(_timer *ptimer, void *padapter, void *pfunc, void *ctx);
 
 
 __inline static unsigned char _cancel_timer_ex(_timer *ptimer)
