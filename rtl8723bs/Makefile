@@ -153,7 +153,7 @@ CONFIG_PLATFORM_RTL8197D = n
 
 CONFIG_DRVEXT_MODULE = n
 
-export TopDIR ?= $(src)
+export TopDIR ?= $(shell pwd)
 
 ########### COMMON  #################################
 ifeq ($(CONFIG_GSPI_HCI), y)
@@ -241,7 +241,7 @@ _BTC_FILES += hal/btc/halbtc8192e1ant.o \
 				hal/btc/halbtc8821c2ant.o
 endif
 
-include /data/data/com.termux/files/home/rockchip_wlan/rtl8723bs/hal/phydm/phydm.mk
+include $(TopDIR)/hal/phydm/phydm.mk
 ########### HAL_RTL8188E #################################
 ifeq ($(CONFIG_RTL8188E), y)
 
