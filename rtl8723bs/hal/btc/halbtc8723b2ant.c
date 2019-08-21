@@ -3338,11 +3338,11 @@ void halbtc8723b2ant_action_a2dp(IN struct btc_coexist *btcoexist)
 
 	halbtc8723b2ant_fw_dac_swing_lvl(btcoexist, NORMAL_EXEC, 6);
 
-	if (BTC_RSSI_HIGH(bt_rssi_state))
+	if (BTC_RSSI_HIGH(bt_rssi_state)) {
 		halbtc8723b2ant_dec_bt_pwr(btcoexist, NORMAL_EXEC, 2);
-	else
+	} else {
 		halbtc8723b2ant_dec_bt_pwr(btcoexist, NORMAL_EXEC, 0);
-
+	}
 
 		halbtc8723b2ant_coex_table_with_type(btcoexist, NORMAL_EXEC, 16);
 

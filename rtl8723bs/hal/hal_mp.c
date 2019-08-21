@@ -1058,6 +1058,7 @@ void mpt_SetRFPath_8812A(PADAPTER pAdapter)
 #ifdef CONFIG_RTL8723B
 void mpt_SetRFPath_8723B(PADAPTER pAdapter)
 {
+	u8 i = 0;
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(pAdapter);
 	u32		ulAntennaTx, ulAntennaRx;
 	PMPT_CONTEXT	pMptCtx = &(pAdapter->mppriv.mpt_ctx);
@@ -1073,7 +1074,6 @@ void mpt_SetRFPath_8723B(PADAPTER pAdapter)
 	}
 
 	switch (pAdapter->mppriv.antenna_tx) {
-		u8 p = 0, i = 0;
 	case ANTENNA_A: { /*/ Actually path S1  (Wi-Fi)*/
 		pMptCtx->mpt_rf_path = RF_PATH_A;
 		phy_set_bb_reg(pAdapter, rS0S1_PathSwitch, BIT9 | BIT8 | BIT7, 0x0);

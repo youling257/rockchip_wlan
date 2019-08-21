@@ -2063,7 +2063,7 @@ phy_iq_calibrate_8723b(
 
 
 	for (i = 0; i < 3; i++) {
-		_phy_iq_calibrate_8723b(p_dm, result, i, ~(*p_dm->p_is_1_antenna), *p_dm->p_rf_default_path);
+		_phy_iq_calibrate_8723b(p_dm, result, i, !(*p_dm->p_is_1_antenna), *p_dm->p_rf_default_path);
 		if (i == 1) {
 			is12simular = phy_simularity_compare_8723b(p_dm, result, 0, 1);
 			if (is12simular) {
