@@ -319,7 +319,6 @@ void dump_sdio_card_info(void *sel, struct dvobj_priv *dvobj)
 		_RTW_PRINT_SEL(sel, "unknown(%d)", psdio_data->timing);
 		break;
 	}
-	_RTW_PRINT_SEL(sel, "\n");
 
 	RTW_PRINT_SEL(sel, "  sd3_bus_mode: %s\n", (psdio_data->sd3_bus_mode) ? "TRUE" : "FALSE");
 	RTW_PRINT_SEL(sel, "================\n");
