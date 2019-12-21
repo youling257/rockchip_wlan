@@ -10877,19 +10877,6 @@ void rtw_dump_cur_efuse(PADAPTER padapter)
 		RTW_INFO("EFUSE FILE\n");
 	else
 		RTW_INFO("HW EFUSE\n");
-
-#ifdef CONFIG_RTW_DEBUG
-	for (i = 0; i < mapsize; i++) {
-		if (i % 16 == 0)
-			RTW_PRINT_SEL(RTW_DBGDUMP, "0x%03x: ", i);
-
-		_RTW_PRINT_SEL(RTW_DBGDUMP, "%02X%s"
-			, hal_data->efuse_eeprom_data[i]
-			, ((i + 1) % 16 == 0) ? "\n" : (((i + 1) % 8 == 0) ? "    " : " ")
-		);
-	}
-	_RTW_PRINT_SEL(RTW_DBGDUMP, "\n");
-#endif
 }
 
 
