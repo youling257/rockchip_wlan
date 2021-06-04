@@ -119,7 +119,6 @@
 #define PHYDM_DBG(p_dm, comp, fmt)				\
 	do {													\
 		if ((comp) & (p_dm->debug_components)) {	\
-														\
 			dbg_print("[PHYDM] ");						\
 			RT_PRINTK fmt;								\
 		}												\
@@ -127,14 +126,12 @@
 
 #define PHYDM_DBG_F(p_dm, comp, fmt)									 do {\
 		if ((comp) & p_dm->debug_components) { \
-			\
 			RT_PRINTK fmt;															\
 		}	\
 	} while (0)
 
 #define PHYDM_PRINT_ADDR(p_dm, comp, title_str, ptr)							 do {\
 		if ((comp) & p_dm->debug_components) { \
-			\
 			int __i;																\
 			u8 *__ptr = (u8 *)ptr;											\
 			dbg_print("[PHYDM] ");													\
@@ -149,7 +146,6 @@
 #define ODM_RT_TRACE(p_dm, comp, level, fmt)									\
 	do {	\
 		if (((comp) & p_dm->debug_components) && (level <= p_dm->debug_level || level == ODM_DBG_SERIOUS)) { \
-			\
 			if (p_dm->support_ic_type == ODM_RTL8188E)							\
 				dbg_print("[PhyDM-8188E] ");											\
 			else if (p_dm->support_ic_type == ODM_RTL8192E)						\
